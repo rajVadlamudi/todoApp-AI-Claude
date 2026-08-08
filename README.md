@@ -37,3 +37,27 @@ The app is served at `http://localhost:5173` and proxies `/api` requests to the 
 | POST   | `/api/tasks`       | Create a task (`{ title }`) |
 | PUT    | `/api/tasks/:id`   | Update a task (`{ title?, completed? }`) |
 | DELETE | `/api/tasks/:id`   | Delete a task          |
+
+## Deployment
+
+The frontend deploys to Vercel; the backend needs a host with a persistent,
+writable filesystem (Vercel's serverless functions don't have one), such as
+Render, Railway, or Fly.io.
+
+### Backend
+
+Deploy `server/` to your host of choice. Start command: `npm start`. Note the
+public URL it gives you (e.g. `https://todo-api.onrender.com`).
+
+### Frontend (Vercel)
+
+1. Import the repo into Vercel and set the project's **Root Directory** to `client`.
+   (Vercel picks up `client/vercel.json` automatically for the build settings and
+   SPA routing.)
+2. Add an environment variable in the Vercel project settings:
+   - `VITE_API_URL` = the backend URL from the step above (no trailing slash)
+3. Deploy. `client/.env.example` documents the same variable for local reference.
+
+Without `VITE_API_URL` set, the frontend calls relative `/api/...` paths, which
+only works when a proxy (like the local Vite dev server) forwards them — so it
+must be set for the Vercel deployment to reach the backend.
