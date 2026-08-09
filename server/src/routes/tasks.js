@@ -9,6 +9,13 @@ import { asyncHandler } from "../middleware/asyncHandler.js";
 
 const router = Router();
 
+function validateId(req, res, next) {
+  if (!/^\d+$/.test(req.params.id)) {
+    return res.status(400).json({ error: "Invalid task id" });
+  }
+  next();
+}
+
 router.get(
   "/",
   asyncHandler(async (req, res) => {
@@ -31,6 +38,7 @@ router.post(
 
 router.put(
   "/:id",
+  validateId,
   asyncHandler(async (req, res) => {
     const { title, completed } = req.body;
     const updates = {};
@@ -63,6 +71,7 @@ router.put(
 
 router.delete(
   "/:id",
+  validateId,
   asyncHandler(async (req, res) => {
     const ok = await deleteTask(req.params.id);
     if (!ok) return res.status(404).json({ error: "Task not found" });

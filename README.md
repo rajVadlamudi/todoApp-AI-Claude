@@ -4,12 +4,20 @@ A full-stack to-do list app with a React frontend and an Express backend.
 
 ## Structure
 
-- `server/` — Express REST API (`/api/tasks`), tasks persisted to a local JSON file
+- `server/` — Express REST API (`/api/tasks`), backed by a Supabase Postgres `tasks` table
 - `client/` — React app (Vite), calls the API to add, edit, delete, and complete tasks
 
 ## Running locally
 
-Start the backend:
+### Supabase setup
+
+1. Create a project at [supabase.com](https://supabase.com).
+2. Run `server/supabase/schema.sql` in the Supabase SQL editor to create the `tasks` table.
+3. In Project Settings -> API, copy the project URL and the **service_role** key
+   (not the anon key — the backend needs write access regardless of RLS policies).
+4. Copy `server/.env.example` to `server/.env` and fill in `SUPABASE_URL` and `SUPABASE_KEY`.
+
+### Backend
 
 ```bash
 cd server
@@ -46,8 +54,10 @@ Render, Railway, or Fly.io.
 
 ### Backend
 
-Deploy `server/` to your host of choice. Start command: `npm start`. Note the
-public URL it gives you (e.g. `https://todo-api.onrender.com`).
+Deploy `server/` to your host of choice. Start command: `npm start`. Set the
+`SUPABASE_URL` and `SUPABASE_KEY` environment variables on that host (same
+values as your local `server/.env`). Note the public URL it gives you (e.g.
+`https://todo-api.onrender.com`).
 
 ### Frontend (Vercel)
 
