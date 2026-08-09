@@ -1,56 +1,57 @@
-import { readFile, writeFile } from "fs/promises";
-import { fileURLToPath } from "url";
-import path from "path";
-import { randomUUID } from "crypto";
+import { supabase } from "./supabaseClient.js";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DATA_FILE = path.join(__dirname, "..", "data", "tasks.json");
+const TABLE = "tasks";
 
-async function readTasks() {
-  try {
-    const raw = await readFile(DATA_FILE, "utf-8");
-    return JSON.parse(raw);
-  } catch (err) {
-    if (err.code === "ENOENT") return [];
-    throw err;
-  }
-}
-
-async function writeTasks(tasks) {
-  await writeFile(DATA_FILE, JSON.stringify(tasks, null, 2));
+function toApiTask(row) {
+  return {
+    id: row.id,
+    title: row.text,
+    completed: row.completed,
+    createdAt: row.created_at,
+  };
 }
 
 export async function getAllTasks() {
-  return readTasks();
+  const { data, error } = await supabase
+    .from(TABLE)
+    .select("*")
+    .order("created_at", { ascending: true });
+  if (error) throw error;
+  return data.map(toApiTask);
 }
 
 export async function createTask({ title }) {
-  const tasks = await readTasks();
-  const task = {
-    id: randomUUID(),
-    title,
-    completed: false,
-    createdAt: new Date().toISOString(),
-  };
-  tasks.push(task);
-  await writeTasks(tasks);
-  return task;
+  const { data, error } = await supabase
+    .from(TABLE)
+    .insert({ text: title })
+    .select()
+    .single();
+  if (error) throw error;
+  return toApiTask(data);
 }
 
 export async function updateTask(id, updates) {
-  const tasks = await readTasks();
-  const index = tasks.findIndex((t) => t.id === id);
-  if (index === -1) return null;
-  tasks[index] = { ...tasks[index], ...updates, id: tasks[index].id };
-  await writeTasks(tasks);
-  return tasks[index];
+  const dbUpdates = {};
+  if (updates.title !== undefined) dbUpdates.text = updates.title;
+  if (updates.completed !== undefined) dbUpdates.completed = updates.completed;
+
+  const { data, error } = await supabase
+    .from(TABLE)
+    .update(dbUpdates)
+    .eq("id", id)
+    .select()
+    .maybeSingle();
+  if (error) throw error;
+  return data ? toApiTask(data) : null;
 }
 
 export async function deleteTask(id) {
-  const tasks = await readTasks();
-  const index = tasks.findIndex((t) => t.id === id);
-  if (index === -1) return false;
-  tasks.splice(index, 1);
-  await writeTasks(tasks);
-  return true;
+  const { data, error } = await supabase
+    .from(TABLE)
+    .delete()
+    .eq("id", id)
+    .select()
+    .maybeSingle();
+  if (error) throw error;
+  return Boolean(data);
 }
