@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import Header from "./components/Header";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
 import FilterTabs from "./components/FilterTabs";
@@ -71,14 +72,13 @@ export default function App() {
   return (
     <div className="app">
       <div className="app__card">
-        <header className="app__header">
-          <h1>To-Do</h1>
-          <p className="app__subtitle">
-            {loading
+        <Header
+          subtitle={
+            loading
               ? "Loading tasks…"
-              : `${remaining} task${remaining === 1 ? "" : "s"} remaining`}
-          </p>
-        </header>
+              : `${remaining} task${remaining === 1 ? "" : "s"} remaining`
+          }
+        />
 
         <TaskForm onAdd={handleAdd} />
 

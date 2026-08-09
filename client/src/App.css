@@ -10,7 +10,7 @@
   max-width: 560px;
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: 24px;
   box-shadow: var(--shadow);
   padding: 32px;
   height: fit-content;
@@ -26,6 +26,7 @@
   font-size: 32px;
   font-weight: 700;
   letter-spacing: -0.5px;
+  color: var(--accent-hover);
 }
 
 .app__subtitle {
@@ -40,8 +41,8 @@
   justify-content: space-between;
   gap: 12px;
   margin: 16px 0;
-  padding: 10px 14px;
-  border-radius: 10px;
+  padding: 10px 16px;
+  border-radius: 14px;
   background: rgba(239, 68, 68, 0.1);
   border: 1px solid rgba(239, 68, 68, 0.35);
   color: var(--danger);
@@ -68,23 +69,24 @@
 
 .task-form__input {
   flex: 1;
-  padding: 12px 14px;
-  border-radius: 10px;
+  padding: 12px 16px;
+  border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--bg);
   color: var(--text);
   font-size: 15px;
   outline: none;
-  transition: border-color 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .task-form__input:focus {
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
 }
 
 .task-form__button {
-  padding: 12px 18px;
-  border-radius: 10px;
+  padding: 12px 20px;
+  border-radius: 14px;
   border: none;
   background: var(--accent);
   color: white;
@@ -112,7 +114,7 @@
   padding: 4px;
   margin-bottom: 16px;
   background: var(--bg);
-  border-radius: 10px;
+  border-radius: 14px;
   border: 1px solid var(--border);
   width: fit-content;
 }
@@ -121,8 +123,8 @@
   border: none;
   background: transparent;
   color: var(--text-muted);
-  padding: 6px 14px;
-  border-radius: 8px;
+  padding: 6px 16px;
+  border-radius: 10px;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -130,9 +132,9 @@
 }
 
 .filter-tabs__tab--active {
-  background: var(--card-bg);
-  color: var(--text);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 1px 3px rgba(59, 167, 224, 0.35);
 }
 
 /* Task list */
@@ -157,8 +159,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 14px;
-  border-radius: 12px;
+  padding: 12px 16px;
+  border-radius: 16px;
   border: 1px solid var(--border);
   background: var(--bg);
   transition: background 0.15s ease;
@@ -191,8 +193,8 @@
 .task-item__checkmark {
   width: 20px;
   height: 20px;
-  border-radius: 6px;
-  border: 2px solid var(--border);
+  border-radius: 8px;
+  border: 2px solid var(--accent);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -223,8 +225,8 @@
 
 .task-item__edit-input {
   flex: 1;
-  padding: 6px 8px;
-  border-radius: 8px;
+  padding: 6px 10px;
+  border-radius: 10px;
   border: 1px solid var(--accent);
   background: var(--card-bg);
   color: var(--text);
@@ -244,15 +246,15 @@
   color: var(--text-muted);
   font-size: 13px;
   font-weight: 500;
-  padding: 6px 10px;
-  border-radius: 8px;
+  padding: 6px 12px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
 .task-item__action:hover {
-  background: var(--border);
-  color: var(--text);
+  background: var(--accent-bg);
+  color: var(--accent-hover);
 }
 
 .task-item__action--danger:hover {
