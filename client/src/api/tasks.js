@@ -2,11 +2,21 @@ const API_URL = import.meta.env.VITE_API_URL || "";
 const BASE_URL = `${API_URL}/api/tasks`;
 
 async function handleResponse(res) {
+  if (res.status === 204) return null;
+
+  const isJson = res.headers.get("content-type")?.includes("application/json");
+
   if (!res.ok) {
-    const body = await res.json().catch(() => ({}));
+    const body = isJson ? await res.json().catch(() => ({})) : {};
     throw new Error(body.error || `Request failed with status ${res.status}`);
   }
-  if (res.status === 204) return null;
+
+  if (!isJson) {
+    throw new Error(
+      "Could not reach the API. Check that VITE_API_URL is set correctly."
+    );
+  }
+
   return res.json();
 }
 
