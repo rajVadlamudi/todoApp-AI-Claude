@@ -1,5 +1,13 @@
-const API_URL = import.meta.env.VITE_API_URL || "";
+const API_URL = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
 const BASE_URL = `${API_URL}/api/tasks`;
+
+if (import.meta.env.PROD && !API_URL) {
+  console.error(
+    "VITE_API_URL is not set for this build. API requests will be sent to " +
+      "this site's own origin instead of a backend, which will fail unless " +
+      "one is deployed there too."
+  );
+}
 
 async function handleResponse(res) {
   if (res.status === 204) return null;
@@ -13,7 +21,7 @@ async function handleResponse(res) {
 
   if (!isJson) {
     throw new Error(
-      "Could not reach the API. Check that VITE_API_URL is set correctly."
+      `Could not reach the API at ${res.url} (got ${res.headers.get("content-type") || "no content-type"} instead of JSON). Check that VITE_API_URL is set correctly.`
     );
   }
 
