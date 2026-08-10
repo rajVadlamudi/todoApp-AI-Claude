@@ -102,12 +102,13 @@
 
 .task-form__input {
   flex: 1;
+  min-width: 0;
   padding: 12px 16px;
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--bg);
   color: var(--text);
-  font-size: 15px;
+  font-size: 16px;
   outline: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
@@ -250,6 +251,7 @@
 
 .task-item__title {
   flex: 1;
+  min-width: 0;
   font-size: 15px;
   text-align: left;
   word-break: break-word;
@@ -258,12 +260,13 @@
 
 .task-item__edit-input {
   flex: 1;
+  min-width: 0;
   padding: 6px 10px;
   border-radius: 10px;
   border: 1px solid var(--accent);
   background: var(--card-bg);
   color: var(--text);
-  font-size: 15px;
+  font-size: 16px;
   outline: none;
 }
 
@@ -293,4 +296,71 @@
 .task-item__action--danger:hover {
   background: rgba(239, 68, 68, 0.12);
   color: var(--danger-hover);
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .app {
+    padding: 24px 12px;
+  }
+
+  .app__card {
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .app__header h1 {
+    font-size: 26px;
+  }
+
+  .app__header-row {
+    gap: 10px;
+  }
+
+  .task-form {
+    gap: 8px;
+  }
+
+  .task-form__input {
+    padding: 11px 14px;
+  }
+
+  .task-form__button {
+    padding: 11px 16px;
+  }
+
+  .filter-tabs {
+    width: 100%;
+  }
+
+  .filter-tabs__tab {
+    flex: 1;
+    text-align: center;
+    padding: 9px 8px;
+  }
+
+  .task-item {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .task-item__checkbox-wrap {
+    width: 26px;
+    height: 26px;
+  }
+
+  .task-item__checkmark {
+    width: 24px;
+    height: 24px;
+  }
+
+  .task-item__actions {
+    gap: 2px;
+  }
+
+  .task-item__action {
+    padding: 9px 10px;
+    font-size: 12px;
+  }
 }
