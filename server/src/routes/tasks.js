@@ -19,7 +19,7 @@ function validateId(req, res, next) {
 router.get(
   "/",
   asyncHandler(async (req, res) => {
-    const tasks = await getAllTasks();
+    const tasks = await getAllTasks(req.userId);
     res.json(tasks);
   })
 );
@@ -31,7 +31,7 @@ router.post(
     if (typeof title !== "string" || !title.trim()) {
       return res.status(400).json({ error: "Title is required" });
     }
-    const task = await createTask({ title: title.trim() });
+    const task = await createTask({ title: title.trim(), userId: req.userId });
     res.status(201).json(task);
   })
 );
@@ -63,7 +63,7 @@ router.put(
         .json({ error: "At least one of title or completed is required" });
     }
 
-    const task = await updateTask(req.params.id, updates);
+    const task = await updateTask(req.params.id, updates, req.userId);
     if (!task) return res.status(404).json({ error: "Task not found" });
     res.json(task);
   })
@@ -73,7 +73,7 @@ router.delete(
   "/:id",
   validateId,
   asyncHandler(async (req, res) => {
-    const ok = await deleteTask(req.params.id);
+    const ok = await deleteTask(req.params.id, req.userId);
     if (!ok) return res.status(404).json({ error: "Task not found" });
     res.status(204).end();
   })
