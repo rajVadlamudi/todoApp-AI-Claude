@@ -16,9 +16,42 @@
   height: fit-content;
 }
 
+.app__header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.app__header-row .app__header {
+  margin-bottom: 0;
+}
+
 .app__header {
   margin-bottom: 24px;
   text-align: left;
+}
+
+.app__card--auth {
+  max-width: 420px;
+}
+
+.app__auth-switch {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.app__auth-switch button {
+  border: none;
+  background: none;
+  color: var(--accent-hover);
+  font-weight: 600;
+  font-size: inherit;
+  cursor: pointer;
+  padding: 0;
 }
 
 .app__header h1 {

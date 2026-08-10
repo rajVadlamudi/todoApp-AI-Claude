@@ -28,26 +28,33 @@ async function handleResponse(res) {
   return res.json();
 }
 
-export function fetchTasks() {
-  return fetch(BASE_URL).then(handleResponse);
+function authHeaders(token) {
+  return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
-export function addTask(title) {
+export function fetchTasks(token) {
+  return fetch(BASE_URL, { headers: authHeaders(token) }).then(handleResponse);
+}
+
+export function addTask(title, token) {
   return fetch(BASE_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...authHeaders(token) },
     body: JSON.stringify({ title }),
   }).then(handleResponse);
 }
 
-export function editTask(id, updates) {
+export function editTask(id, updates, token) {
   return fetch(`${BASE_URL}/${id}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...authHeaders(token) },
     body: JSON.stringify(updates),
   }).then(handleResponse);
 }
 
-export function removeTask(id) {
-  return fetch(`${BASE_URL}/${id}`, { method: "DELETE" }).then(handleResponse);
+export function removeTask(id, token) {
+  return fetch(`${BASE_URL}/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(token),
+  }).then(handleResponse);
 }
